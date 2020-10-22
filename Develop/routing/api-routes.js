@@ -4,7 +4,9 @@
 // These data sources hold arrays of information on notes
 // ===============================================================================
 
-var note = require("../js/index");
+var note = require("../public/assets/js/index");
+var router = require("express").Router();
+var notes = require("../db/notes");
 
 
 
@@ -12,37 +14,23 @@ var note = require("../js/index");
 // ROUTING
 // ===============================================================================
 
-module.exports = function(app) {
   // API GET Requests
   // Below code handles when users "visit" a page.
   // In each of the below cases when a user visits a link
   // (ex: localhost:PORT/api/admin... they are shown a JSON of the data in the table)
   // ---------------------------------------------------------------------------
 
-  app.get("/api/notes", function(req, res) {
-    res.json(note);
+  router.get("/api/notes", function(req, res) {
+    notes.getNotes().then(data => res.json(data)).catch(err => res.json(err))
   });
 
-  app.post("/api/notes", function(req, res) {
-    // req.body is available since we're using the body parsing middleware
-      note.push(req.body);
-      res.json(true);
+  router.post("/api/notes", function(req, res) {
+    notes.addNotes(req.body).then(data => res.json(data)).catch(err => res.json(err))
   });
 
-  // ---------------------------------------------------------------------------
-  // I added this below code so you could clear out the table while working with the functionality.
-  // Don"t worry about it!
 
-  app.post("/api/clear", function(req, res) {
-    // Empty out the arrays of data
-    tableData.length = 0;
-    waitListData.length = 0;
+  router.delete("/api/notes/:id", function(req,res){
+    notes.deleteNotes(req.params.id).then(()=> res.json({ok:true})).catch(err => res.json(err))
+  })
 
-    res.json({ ok: true });
-  });
-};
-
-
-app.delete("/api/notes/:id", function(req,res){
-    //If the id selected matches a note's id then delete it
-})
+  module.exports = router;
