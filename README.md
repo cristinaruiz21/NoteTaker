@@ -35,7 +35,7 @@
 
 # Tests: 
 
-    node index.js
+    node server.js
 
 # Questions: 
 
