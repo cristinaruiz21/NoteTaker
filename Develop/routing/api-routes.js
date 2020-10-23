@@ -4,7 +4,6 @@
 // These data sources hold arrays of information on notes
 // ===============================================================================
 
-var note = require("../public/assets/js/index");
 var router = require("express").Router();
 var notes = require("../db/notes");
 
