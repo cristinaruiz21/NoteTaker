@@ -31,7 +31,7 @@ class Notes{
         return this.getNotes().then(data => [...data,newNote]).then(data => this.writeNotes(data)).then(()=>newNote)
     }
     deleteNotes(id){
-        return this.getNotes().then(data => data.filter(note => note.id !== id)).then(data => this.writeNotes(data))
+        return this.getNotes().then(data => data.filter(note => note.id != id)).then(data => this.writeNotes(data))
     }
 }
 
